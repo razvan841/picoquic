@@ -140,7 +140,8 @@ set(PICOQUIC_LIBRARY_FILES
     picoquic/tp_names.c
     picoquic/transport.c
     picoquic/unified_log.c
-    picoquic/util.c)
+    picoquic/util.c
+    picoquic/wip.c)
 
 set(PICOQUIC_CORE_HEADERS
      picoquic/picoquic.h
@@ -157,6 +158,7 @@ set(PICOQUIC_CORE_HEADERS
      picoquic/picoquictest_dualq.h
      picoquic/picoquic_fastcc.h
      picoquic/picoquic_prague.h
+     picoquic/picoquic_wip.h
      picoquic/picoquic_qlog.h
      picoquic/c4.h
      picoquic/siphash.h)
