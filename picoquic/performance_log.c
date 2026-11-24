@@ -211,6 +211,9 @@ int picoquic_perflog_record(picoquic_cnx_t* cnx, picoquic_performance_log_ctx_t*
         }
         else {
             perflog_ctx->last->next = perflog_item;
+            /* Thesis fork fix: advance the tail, otherwise every new item
+             * replaces the previous one and queued items are lost. */
+            perflog_ctx->last = perflog_item;
         }
 
         if (cnx->quic->cnx_list == cnx && cnx->quic->cnx_last == cnx) {
@@ -244,6 +247,9 @@ int picoquic_perflog(picoquic_quic_t* quic, picoquic_cnx_t* cnx, int should_dele
     }
 
     if (should_delete) {
+        /* Thesis fork fix: write the items still queued before freeing them,
+         * so connections that were closed while others were open are logged. */
+        (void)picoquic_perflog_save(perflog_ctx);
         picoquic_perflog_free(perflog_ctx);
         quic->v_perflog_ctx = NULL;
         quic->perflog_fn = NULL;
